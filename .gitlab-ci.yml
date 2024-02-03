@@ -1,0 +1,15 @@
+stages:
+  - test
+
+test-formatters:
+  stage: test
+  variables:
+    Qt5_ROOT: /opt/gitlab-runner/builds$QT_SEED_PATH
+    CMAKE_PRESET: gitlab-linux-gcc-debug
+  script:
+    - python -m venv venv
+    - source venv/bin/activate
+    - pip install pytest
+    - pytest test
+  tags:
+    - entos-desktop-build-runner

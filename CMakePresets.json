@@ -1,0 +1,32 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 22,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default-debug",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "linux-gcc-debug",
+      "inherits": ["default-debug"],
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "gitlab-linux-gcc-debug",
+      "inherits": ["linux-gcc-debug"],
+      "cacheVariables": {
+        "Qt5_ROOT": "$env{Qt5_ROOT}"
+      }
+    }
+  ]
+}

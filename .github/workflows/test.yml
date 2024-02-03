@@ -1,0 +1,30 @@
+name: Test LLDB Qt Formatters
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setup python
+        uses: actions/setup-python@v4
+
+      - name: install prerequisites
+        run: |
+          pip install pytest
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+          add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
+          add-apt-repository "deb-src http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
+          sudo apt-get install -y qtbase5-dev lldb-17
+          ln --force --symbolic /usr/bin/lldb-17 /usr/bin/lldb
+
+      - name: run tests
+        run: pytest test --junitxml=test.xml test
+
+      - name: report tests
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: test-results
+          path: test.xml

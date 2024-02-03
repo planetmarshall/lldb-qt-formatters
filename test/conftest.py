@@ -5,6 +5,12 @@ from tempfile import NamedTemporaryFile
 import pytest
 
 
+def pytest_configure(config):
+    config.addinivalue_line(
+        "markers", "lldb_script: specify script to run in lldb"
+    )
+
+
 @pytest.fixture(scope="session")
 def exe(tmp_path_factory):
     repository_root = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
@@ -22,7 +28,7 @@ def exe(tmp_path_factory):
 def lldb(request, exe):
     preamble = [
         "command script import lldb_qt_formatters",
-        "breakpoint set --file main.cpp --line 13",
+        "breakpoint set --file main.cpp --line 14",
         "run"
     ]
     marker = request.node.get_closest_marker("lldb_script")

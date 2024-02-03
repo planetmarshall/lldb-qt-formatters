@@ -4,12 +4,26 @@ stages:
 test-formatters:
   stage: test
   variables:
-    Qt5_ROOT: /opt/gitlab-runner/builds$QT_SEED_PATH
     CMAKE_PRESET: gitlab-linux-gcc-debug
+    Qt5_ROOT: /QT/Qt_5.12.3_release-Ubuntu22.04-v3
+  before_script:
+    - apt-get update
+    - apt-get install -y software-properties-common
+    - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+    - add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
+    - add-apt-repository "deb-src http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
+    - apt-get update
+    - apt-get install -y lldb-17
+    - ln --force --symbolic /usr/bin/lldb-17 /usr/bin/lldb
+    - echo 0 | tee /proc/sys/kernel/yama/ptrace_scope
   script:
-    - python -m venv venv
+    - python3 -m venv venv
     - source venv/bin/activate
     - pip install pytest
-    - pytest test
+    - echo "settings set target.load-cwd-lldbinit false" > ~/.lldbinit
+    - pytest --junitxml=lldb_qt_formatters.xml test
+  artifacts:
+    reports:
+      junit: lldb_qt_formatters.xml
   tags:
     - entos-desktop-build-runner

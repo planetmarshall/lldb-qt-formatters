@@ -1,6 +1,8 @@
 Qt Type Formatters for LLDB
 ===========================
 
+![status](https://github.com/planetmarshall/lldb-qt-formatters/actions/workflows/test.yml/badge.svg)
+
 This project adds various [type formatters](https://lldb.llvm.org/use/variable.html#type-format)
 to enable more user friendly display of Qt Core Types in LLDB and IDEs that
 support it.
@@ -38,8 +40,31 @@ Supported Types
 ---------------
 
 * `QMap<Key, Value>`
+  ```.cpp
+  auto map = QMap<QString , uint32_t>{
+    {"one", 1},
+    {"forty-two", 42},
+    {"1.21 gigawatts", 1210000}
+  };
+  ```
+  ```
+  (lldb) frame variable map
+  (QMap<QString, unsigned int>) map = Size: 3 {
+    [0] = {"forty-two": 42}
+    [1] = {"1.21 gigawatts": 1210000}
+    [2] = {"one": 1}
+  }
+  ```
+  
 * `QMapNode<Key, Value>`
 * `QString`
+  ```.cpp
+  auto hello = QString("Hello World");
+  ```
+  ```
+  (lldb) frame variable hello
+  (QString) hello = "Hello World"
+  ```
 
 
 Contribution Guidelines

@@ -9,15 +9,20 @@ jobs:
 
       - name: setup python
         uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
 
       - name: install prerequisites
         run: |
-          pip install pytest
+          pip install -r requirements
           wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
           sudo add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
           sudo add-apt-repository "deb-src http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
           sudo apt-get install -y qtbase5-dev lldb-17
           sudo ln --force --symbolic /usr/bin/lldb-17 /usr/bin/lldb
+
+      - name: run linter
+        run: flake8 --verbose lldb_qt_formatters
 
       - name: run tests
         run: pytest test --junitxml=test.xml --full-trace --verbose test

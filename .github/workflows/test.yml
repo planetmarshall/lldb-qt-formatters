@@ -20,7 +20,7 @@ jobs:
           sudo ln --force --symbolic /usr/bin/lldb-17 /usr/bin/lldb
 
       - name: run tests
-        run: pytest test --junitxml=test.xml test
+        run: pytest test --junitxml=test.xml --full-trace test
 
       - name: report tests
         uses: dorny/test-reporter@v1
@@ -28,4 +28,4 @@ jobs:
         with:
           name: test-results
           path: test.xml
-          reporter: jest-junit
+          reporter: java-junit

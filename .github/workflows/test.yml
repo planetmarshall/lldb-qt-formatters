@@ -21,11 +21,3 @@ jobs:
 
       - name: run tests
         run: pytest test --junitxml=test.xml --full-trace test
-
-      - name: report tests
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: test-results
-          path: test.xml
-          reporter: java-junit

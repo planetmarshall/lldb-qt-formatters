@@ -15,13 +15,12 @@ test-formatters:
     - apt-get update
     - apt-get install -y lldb-17
     - ln --force --symbolic /usr/bin/lldb-17 /usr/bin/lldb
-    - echo 0 | tee /proc/sys/kernel/yama/ptrace_scope
   script:
     - python3 -m venv venv
     - source venv/bin/activate
     - pip install pytest
     - echo "settings set target.load-cwd-lldbinit false" > ~/.lldbinit
-    - pytest --junitxml=lldb_qt_formatters.xml test
+    - pytest --junitxml=lldb_qt_formatters.xml --full-trace --verbose test
   artifacts:
     reports:
       junit: lldb_qt_formatters.xml

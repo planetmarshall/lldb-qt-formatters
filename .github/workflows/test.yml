@@ -20,4 +20,4 @@ jobs:
           sudo ln --force --symbolic /usr/bin/lldb-17 /usr/bin/lldb
 
       - name: run tests
-        run: pytest test --junitxml=test.xml --full-trace test
+        run: pytest test --junitxml=test.xml --full-trace --verbose test

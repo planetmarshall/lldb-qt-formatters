@@ -28,3 +28,4 @@ jobs:
         with:
           name: test-results
           path: test.xml
+          reporter: jest-junit

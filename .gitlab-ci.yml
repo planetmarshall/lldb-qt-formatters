@@ -18,7 +18,7 @@ test-formatters:
   script:
     - python3 -m venv venv
     - source venv/bin/activate
-    - pip install -r requirements
+    - pip install -r requirements.txt
     - echo "settings set target.load-cwd-lldbinit false" > ~/.lldbinit
     - flake8 --verbose lldb_qt_formatters
     - pytest --junitxml=lldb_qt_formatters.xml --full-trace --verbose test
